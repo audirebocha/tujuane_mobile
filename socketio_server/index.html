@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"
+        integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+</body>
+<script>
+    const socket = io('https://test-socket-ywuk.onrender.com')
+    console.log('At the start my id is', socket.id)
+
+    socket.on('connect', () => {
+        console.log('Connected id:', socket.id)
+        socket.emit('greeting',"HI")
+
+    })
+
+    socket.on('likeupdate', (count) => {
+        console.log(count)
+    })
+
+    socket.on('disconnect', () => {
+        console.log('I have disconnected')
+    })
+
+    function check_connection() {
+        console.log(socket.connected)
+        return socket.connected;
+    }
+
+    socket.on("connect_error", () => {
+        console.log('Connection to the server has some issues')
+        socket.connect();
+    });
+
+    function reconnect(){
+        socket.connect()
+    }
+
+    function get_session_count(){
+        socket.emit('get_users_count',101)
+    }
+
+    socket.on('receive_user_count',(data)=>{
+        console.log(data)
+    })
+
+    socket.on('message_from_server',(message)=>{
+        console.log(message)
+    })
+
+    socket.on('message_from_group',(message)=>{
+        console.log(message)
+    })
+
+    socket.on('message_from_individual',(message)=>{
+        console.log(message)
+    })
+
+    function send_2_group(message){
+        socket.emit('relay_2_group',message,(err,resp)=>{
+            if(err){
+                console.error("Not sent", error)
+            }else{
+                console.log('sent',resp)
+            }
+        })
+    }
+
+    function send_2_individual(id,message){
+        socket.emit('relay_2_individual',{'id':id,'body':message},(err,resp)=>{
+            if(err){
+                console.error("Not sent", error)
+            }else{
+                console.log('sent',resp)
+            }
+        })
+    }
+
+
+
+
+</script>
+
+</html>
