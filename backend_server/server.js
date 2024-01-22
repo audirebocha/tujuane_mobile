@@ -18,7 +18,7 @@ db_connect()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
-    origin:[global.Frontend_server,"http://localhost:5001","https://tujuane-messenger.web.app"],
+    origin:[global.Frontend_server,"http://localhost:5001","https://tujuane-messenger.web.app","https://tujuane-socketio.onrender.com"],
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
     credentials: true
 }));
